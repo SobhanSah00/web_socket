@@ -2,6 +2,7 @@
   "name": "web_socket",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "tsc -b && node ./dist/index.js",
     "start": "tsc -b && node ./dist/index.js",

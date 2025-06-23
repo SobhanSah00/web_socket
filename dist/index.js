@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const ws_1 = require("ws");
-const http_1 = __importDefault(require("http"));
-const PORT = 8080;
-const server = http_1.default.createServer();
-const wss = new ws_1.WebSocketServer({ server });
+import { WebSocketServer } from "ws";
+import http from "http";
+const PORT = parseInt(process.env.PORT || "8000");
+const server = http.createServer();
+const wss = new WebSocketServer({ server });
 // wss.on("connection", function(socket) {
 //     console.log("user connected");
 //     socket.send("hello there")
@@ -31,6 +26,6 @@ wss.on("connection", function (socket) {
         }
     });
 });
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
     console.log("WebSocket server listening on port", PORT);
 });
