@@ -1,6 +1,10 @@
 import {WebSocketServer} from "ws"
+import http from "http"
 
-const wss = new WebSocketServer({ port : 8080 })
+const PORT = 8080
+
+const server = http.createServer();
+const wss = new WebSocketServer({ server })
 
 // wss.on("connection", function(socket) {
 //     console.log("user connected");
@@ -17,14 +21,20 @@ const wss = new WebSocketServer({ port : 8080 })
 
 // echo messgae application 
 
-wss.on("connection", function(socket) {
+wss.on("connection", function (socket) {
+    console.log("Client connected");
     socket.send("hello");
 
-    socket.on("message", function(event) {
-        if(event.toString() == "ping") {
+    socket.on("message", function (event) {
+        console.log("Received:", event.toString());
+        if (event.toString() === "ping") {
             setTimeout(() => {
-                socket.send("pong")
-            },3000)
+                socket.send("pong");
+            }, 3000);
         }
-    })
-})
+    });
+});
+
+server.listen(PORT, () => {
+    console.log("WebSocket server listening on port", PORT);
+});
