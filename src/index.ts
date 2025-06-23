@@ -1,31 +1,30 @@
-interface User {
-    username : string,
-    age : number,
-    email : string,
-    password : string
-};
+import {WebSocketServer} from "ws"
 
-const oneUser : User = {
-    username : "sobhan",
-    age : 12,
-    email : "ajdsofj@gmial.com",
-    password : "1234"
-}
+const wss = new WebSocketServer({ port : 8080 })
 
-type updatedUserData = Pick<User, 'username' | 'age' | 'password' >
+// wss.on("connection", function(socket) {
+//     console.log("user connected");
+//     socket.send("hello there")
+//     setInterval(() => {
+//         socket.send('currect solana price is ' + Math.random());    
+//     }, 1000);
 
+//     socket.on("message", function(event) {
+//         console.log(event.toString());
 
-function updatedUser(data : updatedUserData) {
-    oneUser.age = data.age
-    oneUser.password = data.password
-    oneUser.username = data.username
+//     }) 
+// })
 
-    console.log(oneUser);
-    
-}
+// echo messgae application 
 
-updatedUser({
-    age : 12,
-    username : "sobhan sahoo",
-    password : "aosdjf"
+wss.on("connection", function(socket) {
+    socket.send("hello");
+
+    socket.on("message", function(event) {
+        if(event.toString() == "ping") {
+            setTimeout(() => {
+                socket.send("pong")
+            },3000)
+        }
+    })
 })
